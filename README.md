@@ -7,12 +7,12 @@ If you want to do any changes follow this steps:
 
 1.  Clone the repo
 ```
-$ git clonegit@github.com:lemonwaysas/wordpress-woocommerce-lemonway-plugin.git
+$ git clone git@github.com:lemonwaysas/wordpress-woocommerce-lemonway-plugin.git
 ```
   **Note:**  
   Don't forget to put your ssh public key into your gitlab account.  Else try with http connection:  
 ```
-$ git clonegit@github.com:lemonwaysas/wordpress-woocommerce-lemonway-plugin.git
+$ git clone https://github.com/lemonwaysas/wordpress-woocommerce-lemonway-plugin.git
 ```
 
 2.  Checkout into `develop` branch
