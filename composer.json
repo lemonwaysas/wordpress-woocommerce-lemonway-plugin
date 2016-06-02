@@ -1,0 +1,9 @@
+{
+    "name":"sirateck/wp-tools",
+    "version":"1.0.0",
+    "scripts":{
+        "package":[
+            "cd src && zip -r ../dist/lemonway-wp.zip lemonway/ && cd .."
+        ]
+    }
+}
