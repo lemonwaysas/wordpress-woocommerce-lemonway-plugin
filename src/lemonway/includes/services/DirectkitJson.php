@@ -118,14 +118,14 @@ final class DirectkitJson{
 	}
 	public function UnregisterCard($params) {
 		return self::sendRequest('UnregisterCard', $params, '1.0');
-	}
+	}*/
 	public function MoneyInWithCardId($params) {
-		$res = self::sendRequest('MoneyInWithCardId', $params, '1.1');
-		if (!isset($res->lwError)){
-			$res->operations = array(new Operation($res->lwXml->TRANS->HPAY));
-		}
-		return $res;
+		$response = self::sendRequest('MoneyInWithCardId', $params, '1.1');
+	
+		return new Operation($response->TRANS->HPAY);
+
 	}
+	/*
 	public function MoneyInValidate($params) {
 		return self::sendRequest('MoneyInValidate', $params, '1.0');
 	}*/
