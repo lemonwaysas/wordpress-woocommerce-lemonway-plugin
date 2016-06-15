@@ -139,12 +139,12 @@ final class DirectkitJson{
 		throw new Exception("No Result for sendPayment");
 
 	}
-	/*
+	
 	public function RegisterIBAN($params) {
 		$response = self::sendRequest('RegisterIBAN', $params, '1.1');
 		return new Iban($response->IBAN_REGISTER);
 	}
-	*/
+	
 	public function MoneyOut($params) {
 		$response  = self::sendRequest('MoneyOut', $params, '1.3');
 		return new Operation($response->TRANS->HPAY);
