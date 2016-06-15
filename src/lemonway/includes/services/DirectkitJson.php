@@ -144,14 +144,12 @@ final class DirectkitJson{
 		$response = self::sendRequest('RegisterIBAN', $params, '1.1');
 		return new Iban($response->IBAN_REGISTER);
 	}
-	/*
+	*/
 	public function MoneyOut($params) {
-		$res = self::sendRequest('MoneyOut', $params, '1.3');
-		if (!isset($res->lwError)){
-			$res->operations = array(new Operation($res->lwXml->TRANS->HPAY));
-		}
-		return $res;
+		$response  = self::sendRequest('MoneyOut', $params, '1.3');
+		return new Operation($response->TRANS->HPAY);
 	}
+	/*
 	public function GetPaymentDetails($params) {
 		$res = self::sendRequest('GetPaymentDetails', $params, '1.0');
 		if (!isset($res->lwError)){

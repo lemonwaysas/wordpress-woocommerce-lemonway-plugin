@@ -165,6 +165,10 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	
 	}
 	
+	public function getMerchantWalletId(){
+		return $this->merchantId;
+	}
+	
 	/**
 	 * Oneclic form.
 	 *

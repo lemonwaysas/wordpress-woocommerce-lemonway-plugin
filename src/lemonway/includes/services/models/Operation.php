@@ -79,8 +79,8 @@ class Operation {
 		$this->COM = $hpayXml->COM;
 		$this->STATUS = $hpayXml->STATUS;
 		$this->MLABEL = $hpayXml->MLABEL;
-		$this->INT_MSG = $hpayXml->INT_MSG;
-		$this->EXTRA = new EXTRA($hpayXml->EXTRA);
+		$this->INT_MSG = isset($hpayXml->INT_MSG) ? $hpayXml->INT_MSG : "";
+		$this->EXTRA = isset($hpayXml->EXTRA) ? new EXTRA($hpayXml->EXTRA) : null;
 	}
 }
 
