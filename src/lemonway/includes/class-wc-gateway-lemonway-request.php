@@ -58,6 +58,8 @@ class WC_Gateway_Lemonway_Request {
 		if( function_exists( 'is_plugin_active' ) ) {
 			if ( is_plugin_active( 'lemonwaymkt/lemonwaymkt.php' ) ) {
 				//@TODO manage mixted cart
+				
+				//Keep only subtotal for vendors because webkul plugin work like this :-(
 				$amountCom = $order->get_total() - $order->get_subtotal();
 			}
 		}
