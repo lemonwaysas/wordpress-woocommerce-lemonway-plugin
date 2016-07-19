@@ -122,7 +122,7 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 		$this->apiPassword = $this->get_option( self::API_PASSWORD );
 		$this->merchantId = $this->get_option( self::WALLET_MERCHANT_ID);
 		$this->directkitUrl = $this->get_option( self::DIRECTKIT_URL );
-		$this->webkit_url = $this->get_option( self::WEBKIT_URL);
+		$this->webkitUrl = $this->get_option( self::WEBKIT_URL);
 		$this->directkitUrlTest = $this->get_option( self::DIRECTKIT_URL_TEST );
 		$this->webkitUrlTest = $this->get_option( self::WEBKIT_URL_TEST);
 		$this->oneclicEnabled = 'yes' === $this->get_option( self::ONECLIC_ENABLED, 'no' );
