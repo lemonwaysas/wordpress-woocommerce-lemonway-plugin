@@ -145,7 +145,7 @@ final class Lemonway {
      
      	if( function_exists( 'is_plugin_active' ) ) {
      		if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-     			add_action('admin_notices', array( &$this, 'alert_woo_not_actvie' ) );
+     			add_action('admin_notices', array( &$this, 'alert_woo_not_active' ) );
      			return false;
      		}
      	}
@@ -159,7 +159,7 @@ final class Lemonway {
       *
       * @access static
       */
-     static function alert_woo_not_actvie() {
+     static function alert_woo_not_active() {
      	echo '<div id="message" class="error"><p>';
      	echo sprintf( __('Sorry, <strong>%s</strong> requires WooCommerce to be installed and activated first. Please <a href="%s">install WooCommerce</a> first.', LEMONWAY_TEXT_DOMAIN), LEMONWAY_NAME, admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce') );
      	echo '</p></div>';
