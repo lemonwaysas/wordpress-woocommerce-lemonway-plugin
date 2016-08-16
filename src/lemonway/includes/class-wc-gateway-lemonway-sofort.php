@@ -27,8 +27,8 @@ class WC_Gateway_Lemonway_Sofort extends WC_Gateway_Lemonway {
 		$this->description    = $this->get_option( self::DESCRIPTION );
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		include_once( 'class-wc-gateway-lemonway-notif-handler.php' );
-		new WC_Gateway_Lemonway_Notif_Handler($this );
+		include_once( 'class-wc-gateway-lemonway-sofort-notif-handler.php' );
+		new WC_Gateway_Lemonway_Sofort_Notif_Handler($this );
 	}
 
 	/**

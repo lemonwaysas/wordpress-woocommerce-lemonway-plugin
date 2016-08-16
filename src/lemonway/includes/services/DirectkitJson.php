@@ -7,6 +7,7 @@ require_once 'models/Operation.php';
 require_once 'models/SddMandate.php';
 require_once 'models/Wallet.php';
 require_once 'models/MoneyInWeb.php';
+require_once 'models/SofortInit.php';
 require_once 'DirectkitException.php';
 
 /**

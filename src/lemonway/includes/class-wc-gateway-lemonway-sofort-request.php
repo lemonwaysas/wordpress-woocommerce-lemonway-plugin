@@ -8,7 +8,7 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 	 */
 	public function __construct( $gateway ) {
 		$this->gateway    = $gateway;
-		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Lemonway' );
+		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Lemonway_Sofort' );
 	}
 
 	/**
