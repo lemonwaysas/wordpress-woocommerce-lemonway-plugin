@@ -23,7 +23,7 @@ return array(
 	),
 	WC_Gateway_Lemonway::API_PASSWORD => array(
 			'title'       => __( 'Production Api password', LEMONWAY_TEXT_DOMAIN),
-			'type'        => 'text',
+			'type'        => 'password',
 			'description' => '',
 			'default'     => '',
 			'desc_tip'    => true,
