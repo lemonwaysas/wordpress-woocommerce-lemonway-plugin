@@ -23,6 +23,12 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	 * @var Operation
 	 */
 	protected $_moneyin_trans_details = null;
+	
+	/**
+	 * 
+	 * @var WC_Order
+	 */
+	protected $order;
 
 	/**
 	 * Constructor.
@@ -39,20 +45,20 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	public function check_response() {
 		
 		$orderId = $this->isGet() ? $_GET['response_wkToken'] : $_POST['response_wkToken'];
-		$order = wc_get_order($orderId);
-		if(!$order){
+		$this->order = wc_get_order($orderId);
+		if(!$this->order){
 			wp_die( 'Lemonway notification Request Failure. No Order Found!', 'Lemonway Notification', array( 'response' => 500 ) );
 		}
-		WC_Gateway_Lemonway::log( 'Found order #' . $order->id );
+		WC_Gateway_Lemonway::log( 'Found order #' . $this->order->id );
 		if($this->isGet()){
 			
-			wp_redirect(esc_url_raw( $this->gateway->get_return_url( $order ))) ;
+			wp_redirect(esc_url_raw( $this->gateway->get_return_url( $this->order ))) ;
 			exit;
 		}
 		elseif ( ! empty( $_POST ) && $this->validate_notif( $_POST['response_code']) ) {
 			//$posted = wp_unslash( $_POST );
 
-			do_action( 'valid-lemonway-notif-request', $order );
+			do_action( 'valid-lemonway-notif-request', $this->order );
 			exit;
 		}
 
@@ -93,7 +99,17 @@ class WC_Gateway_Lemonway_Notif_Handler {
 		if($operation)
 		{		
 			if($operation->STATUS == 3)
+			{
+				
+				//Save Card Data if is register case
+				$registerCard = get_post_meta( $this->order->id, '_register_card', true );
+				if($registerCard){
+					update_user_meta( $this->order->get_user_id(), '_lw_card_type', $operation->EXTRA->TYP );
+					update_user_meta( $this->order->get_user_id(), '_lw_card_num', $operation->EXTRA->NUM );
+					update_user_meta( $this->order->get_user_id(), '_lw_card_exp', $operation->EXTRA->EXP );
+				}
 				return true;
+			}
 		}
 
 		return false;
@@ -108,9 +124,8 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	protected function GetMoneyInTransDetails(){
 		if(is_null($this->_moneyin_trans_details))
 		{
-			$orderId = $this->isGet() ? $_GET['response_wkToken'] : $_POST['response_wkToken'];
 			//call directkit to get Webkit Token
-			$params = array('transactionMerchantToken'=>$orderId);
+			$params = array('transactionMerchantToken'=>$this->order->id);
 	
 			//Call api to get transaction detail for this order
 			try {
