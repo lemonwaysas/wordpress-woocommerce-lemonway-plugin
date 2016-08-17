@@ -43,6 +43,6 @@ class WC_Gateway_Lemonway_Sofort_Notif_Handler extends WC_Gateway_Lemonway_Notif
 			exit;
 		}
 
-		wp_die( 'Lemonway notification Request Failure', 'Lemonway Notification', array( 'response' => 500 ) );
+		wp_die( 'Lemonway notification Request Failure.', 'Lemonway Notification', array( 'response' => 500 ) );
 	}
 }

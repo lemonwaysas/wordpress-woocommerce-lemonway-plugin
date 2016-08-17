@@ -1,14 +1,14 @@
 <?php
 require_once('class-wc-gateway-lemonway-request.php');
 
-class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
+class WC_Gateway_Lemonway_Ideal_Request extends WC_Gateway_Lemonway_Request {
 	/**
 	 * Constructor.
-	 * @param WC_Gateway_Lemonway_Sofort $gateway
+	 * @param WC_Gateway_Lemonway_Ideal $gateway
 	 */
 	public function __construct( $gateway ) {
 		$this->gateway    = $gateway;
-		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Lemonway_Sofort' );
+		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Lemonway_Ideal' );
 	}
 
 	/**
@@ -20,6 +20,7 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 		//Build args with the order
 		$amount = $order->get_total();
 		$amountCom = $amount;
+		$issuerId = $_POST['issuerId'];
 		
 		if( function_exists( 'is_plugin_active' ) ) {
 			if ( is_plugin_active( 'lemonwaymkt/lemonwaymkt.php' ) ) {
@@ -30,26 +31,32 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 			}
 		}
 		
-		$comment = sprintf(__('Order #%s by %s %s %s',LEMONWAY_SOFORT_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name,$order->billing_first_name,$order->billing_email);
+		$comment = sprintf(__('Order #%s by %s %s %s',LEMONWAY_IDEAL_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name,$order->billing_first_name,$order->billing_email);
 		$returnUrl = '';
 		$params = array(
-				'wkToken'=>$order->id,
 				'wallet'=> $this->gateway->getMerchantWalletId(),
 				'amountTot'=> $this->formatAmount($amount),
 				'amountCom'=>$this->formatAmount($amountCom),
+				'issuerId'=>$issuerId,
 				'comment'=>$comment,
 				'returnUrl'=>$this->notify_url,
 				'autoCommission'=>0
 		);
 
-		WC_Gateway_Lemonway_Sofort::log(print_r($params, true));
+		WC_Gateway_Lemonway_Ideal::log(print_r($params, true));
 		
-		//Call APi MoneyInSofortInit in correct MODE with the args
-		$sofortInit = $this->gateway->getDirectkit()->MoneyInSofortInit($params);
+		//Call APi MoneyInIdealInit in correct MODE with the args
+		$idealInit = $this->gateway->getDirectkit()->MoneyInIdealInit($params);
 		
-		WC_Gateway_Lemonway_Sofort::log(print_r($sofortInit, true));
+		WC_Gateway_Lemonway_Ideal::log(print_r($idealInit, true));
 
-		$returnUrl = urldecode($sofortInit->actionUrl);
+		global $wpdb;
+
+		$sql = "INSERT INTO `" . $wpdb->prefix . "lemonway_wktoken` (`wktoken`, `id_cart`) VALUES (%s, %d) ON DUPLICATE KEY UPDATE wktoken = %s";
+		$sql = $wpdb->prepare($sql, $idealInit->ID, $order->get_order_number(), $idealInit->ID);
+		$wpdb->query($sql);
+
+		$returnUrl = urldecode($idealInit->actionUrl);
 		
 		//Return redirect url
 		return $returnUrl;

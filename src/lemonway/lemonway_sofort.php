@@ -113,7 +113,7 @@ final class Lemonway_Sofort {
      }
      
      /**
-      * Main Lemonway Instance
+      * Main Lemonway_Sofort Instance
       *
       * Ensures only one instance of Lemonway_Sofort is loaded or can be loaded.
       *

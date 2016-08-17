@@ -7,6 +7,7 @@ require_once 'models/Operation.php';
 require_once 'models/SddMandate.php';
 require_once 'models/Wallet.php';
 require_once 'models/MoneyInWeb.php';
+require_once 'models/IdealInit.php';
 require_once 'models/SofortInit.php';
 require_once 'DirectkitException.php';
 
@@ -119,14 +120,40 @@ final class DirectkitJson{
 	}
 	public function UnregisterCard($params) {
 		return self::sendRequest('UnregisterCard', $params, '1.0');
-	}
+	}*/
 	public function MoneyInWithCardId($params) {
-		$res = self::sendRequest('MoneyInWithCardId', $params, '1.1');
-		if (!isset($res->lwError)){
-			$res->operations = array(new Operation($res->lwXml->TRANS->HPAY));
-		}
-		return $res;
+		$response = self::sendRequest('MoneyInWithCardId', $params, '1.1');
+	
+		return new Operation($response->TRANS->HPAY);
+
 	}
+
+	public function MoneyInIDealInit($params) {
+		$response =  self::sendRequest('MoneyInIDealInit', $params, '1.0');
+		return new IdealInit($response);
+	}
+
+	/**
+	 * 
+	 * @param array $params
+	 * @return Operation
+	 * @throws Exception
+	 */
+	public function MoneyInIDealConfirm($transactionId) {
+		$params = array(
+			'transactionId'=> $transactionId
+		);
+		
+		$response = self::sendRequest('MoneyInIDealConfirm', $params, '1.0');
+		return new Operation($response->TRANS->HPAY);
+	}
+
+	public function MoneyInSofortInit($params) {
+		$response =  self::sendRequest('MoneyInSofortInit', $params, '1.0');
+		return new SofortInit($response);
+	}
+
+	/*
 	public function MoneyInValidate($params) {
 		return self::sendRequest('MoneyInValidate', $params, '1.0');
 	}*/
@@ -140,19 +167,17 @@ final class DirectkitJson{
 		throw new Exception("No Result for sendPayment");
 
 	}
-	/*
+	
 	public function RegisterIBAN($params) {
 		$response = self::sendRequest('RegisterIBAN', $params, '1.1');
 		return new Iban($response->IBAN_REGISTER);
 	}
-	/*
+	
 	public function MoneyOut($params) {
-		$res = self::sendRequest('MoneyOut', $params, '1.3');
-		if (!isset($res->lwError)){
-			$res->operations = array(new Operation($res->lwXml->TRANS->HPAY));
-		}
-		return $res;
+		$response  = self::sendRequest('MoneyOut', $params, '1.3');
+		return new Operation($response->TRANS->HPAY);
 	}
+	/*
 	public function GetPaymentDetails($params) {
 		$res = self::sendRequest('GetPaymentDetails', $params, '1.0');
 		if (!isset($res->lwError)){
@@ -253,7 +278,6 @@ final class DirectkitJson{
 	
 
 	private function sendRequest($methodName, $params, $version){
-		
 		$ua = '';
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 			$ua = $_SERVER['HTTP_USER_AGENT'];
@@ -273,7 +297,6 @@ final class DirectkitJson{
 		);
 		
 		$requestParams = array_merge($baseParams,$params);
-			
 		
 		//self::printDirectkitInput($requestParams);
 						
