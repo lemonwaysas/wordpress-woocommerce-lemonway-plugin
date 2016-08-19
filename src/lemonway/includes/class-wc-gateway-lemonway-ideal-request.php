@@ -34,13 +34,13 @@ class WC_Gateway_Lemonway_Ideal_Request extends WC_Gateway_Lemonway_Request {
 		$comment = sprintf(__('Order #%s by %s %s %s',LEMONWAY_IDEAL_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name,$order->billing_first_name,$order->billing_email);
 		$returnUrl = '';
 		$params = array(
-				'wallet'=> $this->gateway->getMerchantWalletId(),
-				'amountTot'=> $this->formatAmount($amount),
-				'amountCom'=>$this->formatAmount($amountCom),
-				'issuerId'=>$issuerId,
-				'comment'=>$comment,
-				'returnUrl'=>$this->notify_url,
-				'autoCommission'=>0
+				'wallet' 			=> $this->gateway->getMerchantWalletId(),
+				'amountTot' 		=> $this->formatAmount($amount),
+				'amountCom' 		=> $this->formatAmount($amountCom),
+				'issuerId' 			=> $issuerId,
+				'comment' 			=> $comment,
+				'returnUrl' 		=> $this->notify_url,
+				'autoCommission' 	=> 0
 		);
 
 		WC_Gateway_Lemonway_Ideal::log(print_r($params, true));

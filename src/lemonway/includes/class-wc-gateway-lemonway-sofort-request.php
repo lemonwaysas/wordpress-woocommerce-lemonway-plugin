@@ -33,13 +33,13 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 		$comment = sprintf(__('Order #%s by %s %s %s',LEMONWAY_SOFORT_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name,$order->billing_first_name,$order->billing_email);
 		$returnUrl = '';
 		$params = array(
-				'wkToken'=>$order->id,
-				'wallet'=> $this->gateway->getMerchantWalletId(),
-				'amountTot'=> $this->formatAmount($amount),
-				'amountCom'=>$this->formatAmount($amountCom),
-				'comment'=>$comment,
-				'returnUrl'=>$this->notify_url,
-				'autoCommission'=>0
+				'wkToken' 			=> $order->id,
+				'wallet' 			=> $this->gateway->getMerchantWalletId(),
+				'amountTot' 		=> $this->formatAmount($amount),
+				'amountCom' 		=> $this->formatAmount($amountCom),
+				'comment' 			=> $comment,
+				'returnUrl' 		=> $this->notify_url,
+				'autoCommission' 	=> 0
 		);
 
 		WC_Gateway_Lemonway_Sofort::log(print_r($params, true));

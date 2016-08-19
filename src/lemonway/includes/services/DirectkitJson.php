@@ -198,7 +198,7 @@ final class DirectkitJson{
 	public function GetMoneyInTransDetails($params) {
 		
 
-		$requiredFields = array(
+		/*$requiredFields = array(
 				'transactionId'=>'',
 				'transactionComment' => '',
 				"transactionMerchantToken"=>'',
@@ -206,7 +206,7 @@ final class DirectkitJson{
 				"endDate" => ''
 		);
 		
-		$params = array_merge($requiredFields,$params);
+		$params = array_merge($requiredFields,$params);*/
 		
 		$response = self::sendRequest('GetMoneyInTransDetails', $params, '1.8');
 
@@ -297,14 +297,14 @@ final class DirectkitJson{
 		);
 		
 		$requestParams = array_merge($baseParams,$params);
-		
+		$requestParams = array('p' => $requestParams);
 		//self::printDirectkitInput($requestParams);
 						
-		$headers = array("Content-type: application/json; charset=utf-8",
-						"Accept: application/json",
-						"Cache-Control: no-cache",
-						"Pragma: no-cache",
-
+		$headers = array(
+			"Content-type: application/json; charset=utf-8",
+			"Accept: application/json",
+			"Cache-Control: no-cache",
+			"Pragma: no-cache"
 		);
 		
 		$ch = curl_init();

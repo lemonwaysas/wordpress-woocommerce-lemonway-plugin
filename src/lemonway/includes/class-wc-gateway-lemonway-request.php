@@ -70,17 +70,17 @@ class WC_Gateway_Lemonway_Request {
 			
 		
 			$params = array(
-					'wkToken'=>$order->id,
-					'wallet'=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
-					'amountTot'=> $this->formatAmount($amount),
-					'amountCom'=>$this->formatAmount($amountCom),
-					'comment'=>$comment,
-					'returnUrl'=>$this->notify_url,//esc_url_raw( $this->gateway->get_return_url( $order )),
-					'cancelUrl'=>esc_url_raw( $order->get_cancel_order_url_raw() ),
-					'errorUrl'=>esc_url_raw( $order->get_cancel_order_url_raw() ), //@TODO change for a specific error url
-					'autoCommission'=>0,
-					'registerCard'=>$registerCard, //For Atos
-					'useRegisteredCard'=>$useRegisteredCard, //For payline
+				'wkToken' 			=> $order->id,
+				'wallet' 			=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
+				'amountTot' 		=> $this->formatAmount($amount),
+				'amountCom' 		=> $this->formatAmount($amountCom),
+				'comment' 			=> $comment,
+				'returnUrl' 		=> $this->notify_url,//esc_url_raw( $this->gateway->get_return_url( $order )),
+				'cancelUrl' 		=> esc_url_raw( $order->get_cancel_order_url_raw() ),
+				'errorUrl' 			=> esc_url_raw( $order->get_cancel_order_url_raw() ), //@TODO change for a specific error url
+				'autoCommission' 	=> 0,
+				'registerCard' 		=> $registerCard, //For Atos
+				'useRegisteredCard' => $useRegisteredCard, //For payline
 			);
 			
 			WC_Gateway_Lemonway::log(print_r($params,true));
@@ -104,16 +104,13 @@ class WC_Gateway_Lemonway_Request {
 			
 			//call directkit for MoneyInWithCardId
 			$params = array(
-					'wkToken'=>$order->id,
-					'wallet'=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
-					'amountTot'=>$this->formatAmount($amount),
-					'amountCom'=>$this->formatAmount($amountCom),
-					'comment'=>$comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)',LEMONWAY_TEXT_DOMAIN),$cardId),
-					'autoCommission'=>0,
-					'cardId'=>$cardId,
-					'isPreAuth'=>0,
-					'specialConfig'=>'',
-					'delayedDays'=>6 //not used because isPreAuth always false
+				'wkToken' 			=> $order->id,
+				'wallet' 			=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
+				'amountTot' 		=> $this->formatAmount($amount),
+				'amountCom' 		=> $this->formatAmount($amountCom),
+				'comment' 			=> $comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)',LEMONWAY_TEXT_DOMAIN),$cardId),
+				'autoCommission' 	=> 0,
+				'cardId' 			=> $cardId
 			);
 			
 			WC_Gateway_Lemonway::log(print_r($params,true));

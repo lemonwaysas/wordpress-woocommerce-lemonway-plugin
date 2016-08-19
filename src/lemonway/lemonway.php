@@ -158,11 +158,11 @@ final class Lemonway {
  					 
  					try {
  						$params = array(
- 								"wallet"=>$wallet->ID,
- 								"amountTot"=>sprintf("%.2f" ,$amountToPay),
- 								"amountCom"=>sprintf("%.2f" ,(float)0),
- 								"message"=>__("Moneyout from Wordpress module",LEMONWAY_TEXT_DOMAIN),
- 								"ibanId"=>$ibanId,
+ 								"wallet"         => $wallet->ID,
+ 								"amountTot"      => sprintf("%.2f" ,$amountToPay),
+ 								"amountCom"      => sprintf("%.2f" ,(float)0),
+ 								"message"        => __("Moneyout from Wordpress module",LEMONWAY_TEXT_DOMAIN),
+ 								"ibanId"         => $ibanId,
  								"autoCommission" => 0,
  						);
  		
@@ -298,7 +298,7 @@ final class Lemonway {
  	
  		try {
  	
- 			return $kit->GetWalletDetails(array('wallet'=>$walletId,'email'=>''));
+ 			return $kit->GetWalletDetails(array('wallet' => $walletId));
  	
  		} catch (Exception $e) {
  	

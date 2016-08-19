@@ -125,7 +125,7 @@ class WC_Gateway_Lemonway_Notif_Handler {
 		if(is_null($this->_moneyin_trans_details))
 		{
 			//call directkit to get Webkit Token
-			$params = array('transactionMerchantToken'=>$this->order->id);
+			$params = array('transactionMerchantToken' => $this->order->id);
 	
 			//Call api to get transaction detail for this order
 			try {
