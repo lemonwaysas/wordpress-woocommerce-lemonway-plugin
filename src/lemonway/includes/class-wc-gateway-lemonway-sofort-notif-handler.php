@@ -21,7 +21,6 @@ class WC_Gateway_Lemonway_Sofort_Notif_Handler extends WC_Gateway_Lemonway_Notif
 	 * Check for Notification IPN Response.
 	 */
 	public function check_response() {
-		
 		$orderId = $this->isGet() ? $_GET['response_wkToken'] : $_POST['response_wkToken'];
 		$this->order = wc_get_order($orderId);
 		if(!$this->order){

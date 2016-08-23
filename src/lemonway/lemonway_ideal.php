@@ -3,7 +3,7 @@
  Plugin Name: Lemonway IDeal
  Plugin URI: https://www.lemonway.fr/
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
- Version: 1.0.1
+ Version: 1.0.2
  Author: Dat Pham <dpham@lemonway.com>
  Author URI: https://www.lemonway.fr/
  License: GPL2
@@ -56,7 +56,7 @@ final class Lemonway_Ideal {
       * Add menu Lemonway IDeal
       */
      public function add_admin_menu(){
-     	add_submenu_page('lemonway', __( 'Configuration IDeal',LEMONWAY_IDEAL_TEXT_DOMAIN ), __( 'Configuration IDeal',LEMONWAY_IDEAL_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
+     	add_submenu_page('lemonway', __( 'Configuration IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN ), __( 'Configuration IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
      }
      
      public function init_gateway() {
