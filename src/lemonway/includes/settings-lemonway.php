@@ -40,7 +40,7 @@ return array(
 	WC_Gateway_Lemonway::DIRECTKIT_URL => array(
 		'title'       => __( 'Directkit url', LEMONWAY_TEXT_DOMAIN),
 		'type'        => 'text',
-		'description' => 'JSON2 only! E.g: https://ws.lemonway.fr/mb/xxx/yyy/directkitjson2/service.asmx/',
+		'description' => 'JSON2 only! E.g: https://ws.lemonway.fr/mb/xxx/yyy/directkitjson2/service.asmx',
 		'default'     => '',
 		'desc_tip'    => false,
 		'placeholder' => ''
@@ -56,7 +56,7 @@ return array(
 	WC_Gateway_Lemonway::DIRECTKIT_URL_TEST => array(
 		'title'       => __( 'Directkit url test', LEMONWAY_TEXT_DOMAIN),
 		'type'        => 'text',
-		'description' => 'JSON2 only! E.g: https://ws.lemonway.fr/mb/xxx/dev/directkitjson2/service.asmx/',
+		'description' => 'JSON2 only! E.g: https://ws.lemonway.fr/mb/xxx/dev/directkitjson2/service.asmx',
 		'default'     => '',
 		'desc_tip'    => false,
 		'placeholder' => ''

@@ -55,12 +55,12 @@ final class DirectkitJson{
 	 */
 	private $pluginType;
 	
-	public function __construct($directkitUrl,$webkitUrl,$wlLogin,$wlPass,$language,$pluginType = 'Generic-1.0.0'){
+	public function __construct($directkitUrl, $webkitUrl, $wlLogin, $wlPass, $language, $pluginType = 'Generic-1.0.0'){
 		
 		//@TODO validate args
 		
 		
-		$this->directkitUrl = $directkitUrl;
+		$this->directkitUrl = $directkitUrl . "/";
 		$this->webkitUrl = $webkitUrl;
 		$this->wlLogin = $wlLogin;
 		$this->wlPass = $wlPass;
