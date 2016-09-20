@@ -13,7 +13,7 @@ class WC_Gateway_Lemonway_Sofort_Notif_Handler extends WC_Gateway_Lemonway_Notif
 	 */
 	public function __construct( $gateway ) {
 		add_action( 'woocommerce_api_wc_gateway_lemonway_sofort', array( $this, 'check_response' ) );
-		add_action( 'valid-lemonway-notif-request', array( $this, 'valid_response' ) );
+		add_action( 'valid-lemonway-sofort-notif-request', array( $this, 'valid_response' ) );
 		$this->gateway = $gateway;
 	}
 
@@ -38,7 +38,7 @@ class WC_Gateway_Lemonway_Sofort_Notif_Handler extends WC_Gateway_Lemonway_Notif
 			}
 		}
 		elseif ( ! empty( $_POST ) && $this->validate_notif( $_POST['response_code']) ) {
-			do_action( 'valid-lemonway-notif-request', $this->order );
+			do_action( 'valid-lemonway-sofort-notif-request', $this->order );
 			exit;
 		}
 

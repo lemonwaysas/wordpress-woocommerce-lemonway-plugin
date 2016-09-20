@@ -13,7 +13,7 @@ class WC_Gateway_Lemonway_Ideal_Notif_Handler extends WC_Gateway_Lemonway_Notif_
 	 */
 	public function __construct( $gateway ) {
 		add_action( 'woocommerce_api_wc_gateway_lemonway_ideal', array( $this, 'check_response' ) );
-		add_action( 'valid-lemonway-notif-request', array( $this, 'valid_response' ) );
+		add_action( 'valid-lemonway-ideal-notif-request', array( $this, 'valid_response' ) );
 		$this->gateway = $gateway;
 	}
 
@@ -36,7 +36,7 @@ class WC_Gateway_Lemonway_Ideal_Notif_Handler extends WC_Gateway_Lemonway_Notif_
 			WC_Gateway_Lemonway_Ideal::log( 'Found order #' . $this->order->id );
 
 			if ( $this->validate_notif( $_GET['code'], $wktoken) ) {
-				do_action( 'valid-lemonway-notif-request', $this->order );
+				do_action( 'valid-lemonway-ideal-notif-request', $this->order );
 				wp_redirect(esc_url_raw( $this->gateway->get_return_url( $this->order ))) ;
 				exit;
 			} elseif ( ($_GET['code'] == "309") ) {
