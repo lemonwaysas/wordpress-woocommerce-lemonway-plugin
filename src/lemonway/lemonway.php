@@ -3,7 +3,7 @@
  Plugin Name: Lemonway
  Plugin URI: http://www.sirateck.com
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
- Version: 1.0.4
+ Version: 1.0.5
  Author: Kassim Belghait <kassim@sirateck.com>
  Author URI: http://www.sirateck.com
  License: GPL2
