@@ -50,7 +50,9 @@ class WC_Gateway_Lemonway_Notif_Handler {
 			wp_die( 'Lemonway notification Request Failure. No Order Found!', 'Lemonway Notification', array( 'response' => 500 ) );
 		}
 		WC_Gateway_Lemonway::log( 'Found order #' . $this->order->id );
-
+		WC_Gateway_Lemonway::log( 'GET: ' . print_r($_GET, true));
+		WC_Gateway_Lemonway::log( 'POST: ' . print_r($_POST, true));
+		
 		if($this->isGet()){
 			
 			wp_redirect(esc_url_raw( $this->gateway->get_return_url( $this->order ))) ;

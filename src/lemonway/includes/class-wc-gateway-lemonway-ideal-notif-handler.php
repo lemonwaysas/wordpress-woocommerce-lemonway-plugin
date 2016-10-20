@@ -34,6 +34,8 @@ class WC_Gateway_Lemonway_Ideal_Notif_Handler extends WC_Gateway_Lemonway_Notif_
 			}
 
 			WC_Gateway_Lemonway_Ideal::log( 'Found order #' . $this->order->id );
+			WC_Gateway_Lemonway::log( 'GET: ' . print_r($_GET, true));
+			WC_Gateway_Lemonway::log( 'POST: ' . print_r($_POST, true));
 
 			if ( $this->validate_notif( $_GET['code'], $wktoken) ) {
 				do_action( 'valid-lemonway-ideal-notif-request', $this->order );

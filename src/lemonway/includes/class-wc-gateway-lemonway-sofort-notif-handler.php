@@ -27,6 +27,8 @@ class WC_Gateway_Lemonway_Sofort_Notif_Handler extends WC_Gateway_Lemonway_Notif
 			wp_die( 'Lemonway notification Request Failure. No Order Found!', 'Lemonway Notification', array( 'response' => 500 ) );
 		}
 		WC_Gateway_Lemonway_Sofort::log( 'Found order #' . $this->order->id );
+		WC_Gateway_Lemonway::log( 'GET: ' . print_r($_GET, true));
+		WC_Gateway_Lemonway::log( 'POST: ' . print_r($_POST, true));
 
 		if($this->isGet()) {
 			if ($_GET['response_code'] == "2002") {
