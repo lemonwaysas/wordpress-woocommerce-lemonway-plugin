@@ -298,9 +298,7 @@ final class DirectkitJson{
 		);
 		
 		$requestParams = array_merge($baseParams,$params);
-		$requestParams = array('p' => $requestParams);
-		//self::printDirectkitInput($requestParams);
-						
+			
 		$headers = array(
 			"Content-type: application/json; charset=utf-8",
 			"Accept: application/json",
