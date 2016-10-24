@@ -43,13 +43,13 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	 * Check for Notification IPN Response.
 	 */
 	public function check_response() {
-		
+		WC_Gateway_Lemonway::log($this->isPost() ? "Is POST request" : "Is GET Request");
 		$orderId = $this->isGet() ? $_GET['response_wkToken'] : $_POST['response_wkToken'];
 		$this->order = wc_get_order($orderId);
 		if(!$this->order){
 			wp_die( 'Lemonway notification Request Failure. No Order Found!', 'Lemonway Notification', array( 'response' => 500 ) );
 		}
-		WC_Gateway_Lemonway::log( 'Found order #' . $this->order->id );
+		WC_Gateway_Lemonway::log( 'Found order in notif handler #' . $this->order->id );
 
 		if($this->isGet()){
 			
@@ -58,7 +58,7 @@ class WC_Gateway_Lemonway_Notif_Handler {
 		}
 		elseif ( ! empty( $_POST ) && $this->validate_notif( $_POST['response_code']) ) {
 			//$posted = wp_unslash( $_POST );
-
+			
 			do_action( 'valid-lemonway-notif-request', $this->order );
 			exit;
 		}
@@ -126,7 +126,6 @@ class WC_Gateway_Lemonway_Notif_Handler {
 			//call directkit to get Webkit Token
 
 			$params = array('transactionMerchantToken'=>$this->order->id);
-
 	
 			//Call api to get transaction detail for this order
 			try {

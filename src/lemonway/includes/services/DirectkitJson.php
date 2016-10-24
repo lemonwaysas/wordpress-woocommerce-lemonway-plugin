@@ -199,7 +199,7 @@ final class DirectkitJson{
 	public function GetMoneyInTransDetails($params) {
 		
 
-		/*$requiredFields = array(
+		$requiredFields = array(
 				'transactionId'=>'',
 				'transactionComment' => '',
 				"transactionMerchantToken"=>'',
@@ -207,7 +207,7 @@ final class DirectkitJson{
 				"endDate" => ''
 		);
 		
-		$params = array_merge($requiredFields,$params);*/
+		$params = array_merge($requiredFields,$params);
 		
 		$response = self::sendRequest('GetMoneyInTransDetails', $params, '1.8');
 

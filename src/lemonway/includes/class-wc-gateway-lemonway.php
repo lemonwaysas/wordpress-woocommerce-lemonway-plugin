@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 require_once 'services/DirectkitJson.php';
+include_once( 'class-wc-gateway-lemonway-notif-handler.php' );
 
 /**
  * WC_Gateway_Lemonway class.
@@ -83,6 +84,12 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	 */
 	protected $directkit;
 	
+	/**
+	 * 
+	 * @var WC_Gateway_Lemonway_Notif_Handler $notifhandler
+	 */
+	protected $notifhandler;
+	
 	//API CONFIGURATION
 	const API_LOGIN = 'api_login';
 	const API_PASSWORD = 'api_password';
@@ -140,8 +147,15 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
-		include_once( 'class-wc-gateway-lemonway-notif-handler.php' );
-		new WC_Gateway_Lemonway_Notif_Handler( $this );
+		//Init notification handler
+		$this->notifhandler =  new WC_Gateway_Lemonway_Notif_Handler( $this );
+	}
+	
+	/**
+	 * @return WC_Gateway_Lemonway_Notif_Handler
+	 */
+	public function getNotifhandler(){
+		return $this->notifhandler;
 	}
 	
 	/**
