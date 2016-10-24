@@ -127,6 +127,16 @@ class WC_Gateway_Lemonway_Request {
 			WC_Gateway_Lemonway::log(print_r($operation,true));
 			
 			if($operation->STATUS == "3"){
+				
+				$transaction_id = $operation->ID;
+				//Set transaction id to POST array. Needed on notif handler
+				
+				$_POST['response_transactionId'] = $transaction_id;
+				
+				//Process order status
+				$this->gateway->getNotifhandler()->valid_response($order);
+				
+				//Return to original wc success page
 				$returnUrl = $this->gateway->get_return_url($order);
 			}
 			else{
