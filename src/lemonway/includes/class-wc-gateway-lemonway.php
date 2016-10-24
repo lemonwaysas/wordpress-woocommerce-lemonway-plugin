@@ -109,10 +109,8 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 		$this->icon 			  = ''; //@TODO
 		$this->has_fields         = true;
 		$this->method_title       = __( 'Lemonway', LEMONWAY_TEXT_DOMAIN );
-		$this->method_description = __('Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.',LEMONWAY_TEXT_DOMAIN);
+		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', LEMONWAY_TEXT_DOMAIN);
 
-		
-	
 		// Load the settings.
 		$this->init_form_fields();
 		$this->init_settings();
@@ -122,7 +120,7 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 		$this->apiPassword = $this->get_option( self::API_PASSWORD );
 		$this->merchantId = $this->get_option( self::WALLET_MERCHANT_ID);
 		$this->directkitUrl = $this->get_option( self::DIRECTKIT_URL );
-		$this->webkit_url = $this->get_option( self::WEBKIT_URL);
+		$this->webkitUrl = $this->get_option( self::WEBKIT_URL);
 		$this->directkitUrlTest = $this->get_option( self::DIRECTKIT_URL_TEST );
 		$this->webkitUrlTest = $this->get_option( self::WEBKIT_URL_TEST);
 		$this->oneclicEnabled = 'yes' === $this->get_option( self::ONECLIC_ENABLED, 'no' );
@@ -133,17 +131,17 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 		$this->description    = $this->get_option( self::DESCRIPTION );
 		$this->debug          = 'yes' === $this->get_option( self::DEBUG, 'no' );
 		
-		$directkitUrl = $this->testMode ? $this->directkitUrlTest :$this->directkitUrl ;
-		$webkitUrl = $this->testMode ? $this->webkitUrlTest :$this->webkitUrl;
+		$directkitUrl = $this->testMode ? $this->directkitUrlTest : $this->directkitUrl;
+		$webkitUrl = $this->testMode ? $this->webkitUrlTest : $this->webkitUrl;
 		
 		$this->directkit = new DirectkitJson($directkitUrl, $webkitUrl, $this->apiLogin, $this->apiPassword, get_locale());
 	
 		self::$log_enabled    = $this->debug;
 	
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		
+
 		include_once( 'class-wc-gateway-lemonway-notif-handler.php' );
-		new WC_Gateway_Lemonway_Notif_Handler($this );
+		new WC_Gateway_Lemonway_Notif_Handler( $this );
 	}
 	
 	/**
@@ -151,9 +149,9 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	 * Override this in your gateway if you have some.
 	 */
 	public function payment_fields() {
-	
-		
-		if($this->oneclicEnabled){			
+
+		if($this->oneclicEnabled) {
+
 			$this->oneclic_form();
 		}
 		else{	

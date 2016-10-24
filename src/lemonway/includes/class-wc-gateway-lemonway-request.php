@@ -70,6 +70,7 @@ class WC_Gateway_Lemonway_Request {
 			
 		
 			$params = array(
+
 					'wkToken'=>$order->id,
 					'wallet'=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
 					'amountTot'=> $this->formatAmount($amount),
@@ -81,6 +82,7 @@ class WC_Gateway_Lemonway_Request {
 					'autoCommission'=>0,
 					'registerCard'=>$registerCard, //For Atos
 					'useRegisteredCard'=>$useRegisteredCard, //For payline
+
 			);
 			
 			WC_Gateway_Lemonway::log(print_r($params,true));
@@ -104,6 +106,7 @@ class WC_Gateway_Lemonway_Request {
 			
 			//call directkit for MoneyInWithCardId
 			$params = array(
+
 					'wkToken'=>$order->id,
 					'wallet'=> $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
 					'amountTot'=>$this->formatAmount($amount),
@@ -111,9 +114,10 @@ class WC_Gateway_Lemonway_Request {
 					'comment'=>$comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)',LEMONWAY_TEXT_DOMAIN),$cardId),
 					'autoCommission'=>0,
 					'cardId'=>$cardId,
-					'isPreAuth'=>0,
-					'specialConfig'=>'',
-					'delayedDays'=>6 //not used because isPreAuth always false
+					//isPreAuth'=>0,
+					//'specialConfig'=>'',
+					//'delayedDays'=>6 //not used because isPreAuth always false
+
 			);
 			
 			WC_Gateway_Lemonway::log(print_r($params,true));

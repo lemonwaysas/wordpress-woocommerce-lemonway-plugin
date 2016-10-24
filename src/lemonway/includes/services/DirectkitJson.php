@@ -7,6 +7,8 @@ require_once 'models/Operation.php';
 require_once 'models/SddMandate.php';
 require_once 'models/Wallet.php';
 require_once 'models/MoneyInWeb.php';
+require_once 'models/IdealInit.php';
+require_once 'models/SofortInit.php';
 require_once 'DirectkitException.php';
 
 /**
@@ -53,12 +55,12 @@ final class DirectkitJson{
 	 */
 	private $pluginType;
 	
-	public function __construct($directkitUrl,$webkitUrl,$wlLogin,$wlPass,$language,$pluginType = 'Generic-1.0.0'){
+	public function __construct($directkitUrl, $webkitUrl, $wlLogin, $wlPass, $language, $pluginType = 'Generic-1.0.0'){
 		
 		//@TODO validate args
 		
 		
-		$this->directkitUrl = $directkitUrl;
+		$this->directkitUrl = $directkitUrl . "/";
 		$this->webkitUrl = $webkitUrl;
 		$this->wlLogin = $wlLogin;
 		$this->wlPass = $wlPass;
@@ -125,6 +127,33 @@ final class DirectkitJson{
 		return new Operation($response->TRANS->HPAY);
 
 	}
+
+
+	public function MoneyInIDealInit($params) {
+		$response =  self::sendRequest('MoneyInIDealInit', $params, '1.0');
+		return new IdealInit($response);
+	}
+
+	/**
+	 * 
+	 * @param array $params
+	 * @return Operation
+	 * @throws Exception
+	 */
+	public function MoneyInIDealConfirm($transactionId) {
+		$params = array(
+			'transactionId'=> $transactionId
+		);
+		
+		$response = self::sendRequest('MoneyInIDealConfirm', $params, '1.0');
+		return new Operation($response->TRANS->HPAY);
+	}
+
+	public function MoneyInSofortInit($params) {
+		$response =  self::sendRequest('MoneyInSofortInit', $params, '1.0');
+		return new SofortInit($response);
+	}
+
 	/*
 	public function MoneyInValidate($params) {
 		return self::sendRequest('MoneyInValidate', $params, '1.0');
@@ -170,7 +199,7 @@ final class DirectkitJson{
 	public function GetMoneyInTransDetails($params) {
 		
 
-		$requiredFields = array(
+		/*$requiredFields = array(
 				'transactionId'=>'',
 				'transactionComment' => '',
 				"transactionMerchantToken"=>'',
@@ -178,7 +207,7 @@ final class DirectkitJson{
 				"endDate" => ''
 		);
 		
-		$params = array_merge($requiredFields,$params);
+		$params = array_merge($requiredFields,$params);*/
 		
 		$response = self::sendRequest('GetMoneyInTransDetails', $params, '1.8');
 
@@ -250,7 +279,6 @@ final class DirectkitJson{
 	
 
 	private function sendRequest($methodName, $params, $version){
-		
 		$ua = '';
 		if (isset($_SERVER['HTTP_USER_AGENT']))
 			$ua = $_SERVER['HTTP_USER_AGENT'];
@@ -270,15 +298,14 @@ final class DirectkitJson{
 		);
 		
 		$requestParams = array_merge($baseParams,$params);
-			
-		
+		$requestParams = array('p' => $requestParams);
 		//self::printDirectkitInput($requestParams);
 						
-		$headers = array("Content-type: application/json; charset=utf-8",
-						"Accept: application/json",
-						"Cache-Control: no-cache",
-						"Pragma: no-cache",
-
+		$headers = array(
+			"Content-type: application/json; charset=utf-8",
+			"Accept: application/json",
+			"Cache-Control: no-cache",
+			"Pragma: no-cache"
 		);
 		
 		$ch = curl_init();

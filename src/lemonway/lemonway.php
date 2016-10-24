@@ -3,7 +3,7 @@
  Plugin Name: Lemonway
  Plugin URI: http://www.sirateck.com
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
- Version: 1.0.3
+ Version: 1.0.6
  Author: Kassim Belghait <kassim@sirateck.com>
  Author URI: http://www.sirateck.com
  License: GPL2
@@ -59,11 +59,11 @@ final class Lemonway {
       * Add menu Lemonway
       */
      public function add_admin_menu(){
+
      	add_menu_page( __( 'Lemonway',LEMONWAY_TEXT_DOMAIN ),__( 'Lemonway ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, null, null, '58' );
      	add_submenu_page($this->slug, __( 'Moneyout ',LEMONWAY_TEXT_DOMAIN ), __( 'Moneyout ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, array($this, 'moneyout_html'));
      	add_submenu_page($this->slug, __( 'Configuration ',LEMONWAY_TEXT_DOMAIN ), __( 'Configuration ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
-     	
-     
+
      }
      
      /**
@@ -366,7 +366,7 @@ final class Lemonway {
      
      	if( function_exists( 'is_plugin_active' ) ) {
      		if ( !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-     			add_action('admin_notices', array( &$this, 'alert_woo_not_actvie' ) );
+     			add_action('admin_notices', array( &$this, 'alert_woo_not_active' ) );
      			return false;
      		}
      	}
@@ -380,7 +380,7 @@ final class Lemonway {
       *
       * @access static
       */
-     static function alert_woo_not_actvie() {
+     static function alert_woo_not_active() {
      	echo '<div id="message" class="error"><p>';
      	echo sprintf( __('Sorry, <strong>%s</strong> requires WooCommerce to be installed and activated first. Please <a href="%s">install WooCommerce</a> first.', LEMONWAY_TEXT_DOMAIN), LEMONWAY_NAME, admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce') );
      	echo '</p></div>';
