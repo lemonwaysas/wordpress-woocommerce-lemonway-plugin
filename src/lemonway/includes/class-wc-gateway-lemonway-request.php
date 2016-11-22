@@ -113,11 +113,7 @@ class WC_Gateway_Lemonway_Request {
 					'amountCom'=>$this->formatAmount($amountCom),
 					'comment'=>$comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)',LEMONWAY_TEXT_DOMAIN),$cardId),
 					'autoCommission'=>0,
-					'cardId'=>$cardId,
-					'isPreAuth'=>0,
-					'specialConfig'=>'',
-					'delayedDays'=>6 //not used because isPreAuth always false
-
+					'cardId'=>$cardId
 			);
 			
 			WC_Gateway_Lemonway::log(print_r($params,true));

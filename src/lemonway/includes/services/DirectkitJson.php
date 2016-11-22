@@ -197,9 +197,7 @@ final class DirectkitJson{
 	 * @throws Exception
 	 */
 	public function GetMoneyInTransDetails($params) {
-		
-
-		$requiredFields = array(
+		/*$requiredFields = array(
 				'transactionId'=>'',
 				'transactionComment' => '',
 				"transactionMerchantToken"=>'',
@@ -207,7 +205,7 @@ final class DirectkitJson{
 				"endDate" => ''
 		);
 		
-		$params = array_merge($requiredFields,$params);
+		$params = array_merge($requiredFields,$params);*/
 		
 		$response = self::sendRequest('GetMoneyInTransDetails', $params, '1.8');
 
@@ -298,7 +296,8 @@ final class DirectkitJson{
 		);
 		
 		$requestParams = array_merge($baseParams,$params);
-			
+		$requestParams = array('p' => $requestParams);
+        
 		$headers = array(
 			"Content-type: application/json; charset=utf-8",
 			"Accept: application/json",
