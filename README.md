@@ -1,4 +1,4 @@
-# Lemonway Wordpress/Woocommerce (Work in progress...)
+# Lemonway Wordpress/Woocommerce
 ---
 ## How to use this repository
 
