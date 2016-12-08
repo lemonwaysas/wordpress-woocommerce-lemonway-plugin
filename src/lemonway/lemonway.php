@@ -3,7 +3,7 @@
  Plugin Name: Lemonway
  Plugin URI: http://www.sirateck.com
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
- Version: 1.0.8
+ Version: 1.0.9
  Author: Kassim Belghait <kassim@sirateck.com>
  Author URI: http://www.sirateck.com
  License: GPL2
@@ -130,104 +130,97 @@ final class Lemonway {
  			/** @var $wallet Wallet **/
  			$wallet = $this->getWalletDetails($walletId);
  		} catch (Exception $e) {
- 			echo $e->getMessage();
+ 			echo esc_html( $e->getMessage() );
  			return;
  		}
  		
- 		if(isset($_POST['amountToPay'])){
+ 		if ( isset( $_POST['amountToPay'] ) && check_admin_referer( 'moneyout_' . $walletId ) ) {
  			 
- 			$amountToPay = (float)str_replace(",", ".", $_POST['amountToPay']);
+ 			$amountToPay = (float)str_replace(",", ".", wc_clean( $_POST['amountToPay'] ) );
  			 
- 			if($amountToPay > $wallet->BAL){
- 				$message = sprintf(__("You can't paid amount upper of your balance amount: %s",LEMONWAY_TEXT_DOMAIN),wc_price($wallet->BAL));
+ 			if ($amountToPay > $wallet->BAL) {
+ 				$message = sprintf(__("You can't paid amount upper of your balance amount: %s",LEMONWAY_TEXT_DOMAIN), wc_price($wallet->BAL));
  				echo '<div id="message" class="error notice-error is-dismissible"><p>' . $message. '</p></div>';
  			}
- 			elseif($amountToPay <= 0){
+ 			elseif($amountToPay <= 0) {
  				$message = __("Amount must be greater than 0",LEMONWAY_TEXT_DOMAIN);
- 				echo '<div id="message" class="error notice-error is-dismissible"><p>' . $message. '</p></div>';
+ 				echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ). '</p></div>';
  				 
  			}
  			else
  			{
- 		
  				$ibanId = 0;
  		
- 				if(isset($_POST['iban_id']) && is_array($_POST['iban_id'])){
- 					$ibanId = current($_POST['iban_id']);
- 					$iban = $_POST['iban_' . $ibanId];
+ 				if( isset( $_POST['iban_id'] ) && is_array( $_POST['iban_id'] ) && check_admin_referer( 'moneyout_' . $walletId ) ) {
+ 					$ibanId = current(wc_clean( $_POST['iban_id'] ) );
+ 					$iban = wc_clean( $_POST['iban_' . $ibanId] );
  					 
  					try {
  						$params = array(
- 								"wallet"=>$wallet->ID,
- 								"amountTot"=>sprintf("%.2f" ,$amountToPay),
- 								"amountCom"=>sprintf("%.2f" ,(float)0),
- 								"message"=>__("Moneyout from Wordpress module",LEMONWAY_TEXT_DOMAIN),
- 								"ibanId"=>$ibanId,
- 								"autoCommission" => 0,
+ 								"wallet" => $wallet->ID,
+ 								"amountTot" => sprintf("%.2f", $amountToPay),
+ 								"amountCom" => sprintf("%.2f", (float)0),
+ 								"message" => __("Moneyout from Wordpress Woocommerce module", LEMONWAY_TEXT_DOMAIN),
+ 								"ibanId" => $ibanId,
  						);
  		
  						$op = $this->gateway->getDirectkit()->MoneyOut($params);
  		
  						if($op->STATUS == "3"){
  							$wallet->BAL = $wallet->BAL - $amountToPay;
- 							$message = sprintf(__("You paid %s to your Iban %s from your wallet <b>%s</b>",LEMONWAY_TEXT_DOMAIN),wc_price($amountToPay),$iban,$wallet->ID);
+ 							$message = sprintf(__("You paid %s to your Iban %s from your wallet <b>%s</b>",LEMONWAY_TEXT_DOMAIN),wc_price($amountToPay), $iban, $wallet->ID);
  							echo '<div id="message" class="updated notice is-dismissible"><p>' . $message . '</p></div>';
  			     
  						}
- 						else{
+ 						else {
  							$message = __("An error occurred. Please contact support.",LEMONWAY_TEXT_DOMAIN);
- 							echo '<div id="message" class="error notice-error is-dismissible"><p>' . $message. '</p></div>';
- 							 
+ 							echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
  						}
  			    
  					} catch (Exception $e) {
- 			    
- 						echo '<div id="message" class="error notice-error is-dismissible"><p>' . $e->getMessage(). '</p></div>';
- 			    
+ 						echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $e->getMessage() ) . '</p></div>';
  					}
  				}
- 				else{
+ 				else {
  					$message = __('Please select an IBAN at least',LEMONWAY_TEXT_DOMAIN) ;
- 					echo '<div id="message" class="error notice-error is-dismissible"><p>' . $message. '</p></div>';
+ 					echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
  				}
- 			}
- 			 
- 		}
- 		
- 		 
+ 			} 
+ 		} 
  		?>
- 		          <form method="post" action="">	
+ 		          <form method="post" action="">
+                    <?php wp_nonce_field('moneyout_' . $wallet->ID); ?>
  		          	<div class="card wallet-info" >
- 		          		<h3><?php echo __('Wallet informations',LEMONWAY_TEXT_DOMAIN) ?></h3>
+ 		          		<h3><?php echo __('Wallet informations', LEMONWAY_TEXT_DOMAIN) ?></h3>
  		          <table >
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Wallet ID',LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Wallet ID', LEMONWAY_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
- 		                    <strong><?php echo $wallet->ID ?></strong>
+ 		                    <strong><?php echo esc_html( $wallet->ID ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Balance',LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Balance', LEMONWAY_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
- 		                    <strong><?php echo wc_price($wallet->BAL)?></strong>
+ 		                    <strong><?php echo wc_price(esc_html( $wallet->BAL ) ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Owner name',LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Owner name', LEMONWAY_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
- 		                    <strong><?php echo $wallet->NAME ?></strong>
+ 		                    <strong><?php echo esc_html( $wallet->NAME ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Owner email',LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Owner email', LEMONWAY_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
- 		                    <strong><?php echo $wallet->EMAIL ?></strong>
+ 		                    <strong><?php echo esc_html( $wallet->EMAIL ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Status',LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Status', LEMONWAY_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
- 		                    <strong><?php echo $wallet->getStatusLabel() ?></strong>
+ 		                    <strong><?php echo esc_html( $wallet->getStatusLabel() ) ?></strong>
  		                </td>
  		            </tr>
  		        </table>
@@ -236,7 +229,7 @@ final class Lemonway {
  		          		<h3><?php echo __('Iban informations',LEMONWAY_TEXT_DOMAIN) ?></h3>
  		          		<?php if(count($wallet->ibans)) :?>
  				        <table>
- 				        <tr><td colspan="2"><?php echo __('Select an Iban',LEMONWAY_TEXT_DOMAIN) ?></td></tr>
+ 				        <tr><td colspan="2"><?php echo __('Select an Iban', LEMONWAY_TEXT_DOMAIN) ?></td></tr>
  					        <?php foreach ($wallet->ibans as $_iban) : /** @var $_iban Iban */?>
  					        <tr>
  					        	<td>
@@ -245,9 +238,9 @@ final class Lemonway {
  					        	<td class="a-left">
  						        	<label for="iban_<?php echo $_iban->ID ?>" >
  						        	<input class="required-entry" id="iban_<?php echo $_iban->ID ?>" type="radio" name="iban_id[]" value="<?php echo $_iban->ID ?>" />
- 						        		<strong><?php echo $_iban->IBAN ?></strong>
+ 						        		<strong><?php echo esc_html( $_iban->IBAN ) ?></strong>
  					                    <br />
- 					                    <strong><?php echo $_iban->BIC ?></strong>
+ 					                    <strong><?php echo esc_html( $_iban->BIC ) ?></strong>
  					                    <br />
  					                  <!--   <?php //echo __('Status',LEMONWAY_TEXT_DOMAIN)?>&nbsp;<strong><?php // echo $_iban->STATUS ?></strong> -->
  					                </label>
@@ -257,27 +250,27 @@ final class Lemonway {
  				        </table>
  				        <?php else:?>
  				        	<div class="box">
- 						    	<h4><?php echo __("You don't have any Iban!",LEMONWAY_TEXT_DOMAIN)?></h4> 
- 						    	<?php echo sprintf(__('Please create at least one for wallet <b>%s</b> in <a href="%s">Lemonway BO </a>.',LEMONWAY_TEXT_DOMAIN),$wallet->ID,"https://www.lemonway.fr/MbDev/bo") ?>
+ 						    	<h4><?php echo __("You don't have any Iban!", LEMONWAY_TEXT_DOMAIN)?></h4> 
+ 						    	<?php echo sprintf(__('Please create at least one for wallet <b>%s</b> in Lemonway BO.', LEMONWAY_TEXT_DOMAIN), esc_html( $wallet->ID )) ?>
  						    </div>
  				        <?php endif; ?>
  		          	</div>
  		          	
  		          	<?php if(count($wallet->ibans) && (float)$wallet->BAL > 0) :?>
  		          	<div class="card moneyout-form" >
- 		          		<h3><?php echo __('Moneyout informations',LEMONWAY_TEXT_DOMAIN) ?></h3>
+ 		          		<h3><?php echo __('Moneyout informations', LEMONWAY_TEXT_DOMAIN) ?></h3>
  		          		
  						    <table class="form-table">
  						    	<tbody>
  						    		<tr>
- 						    			<th scope="row"><?php echo __("Amount to pay",IZIFLUX_TEXT_DOMAIN)?></th>
+ 						    			<th scope="row"><?php echo __("Amount to pay", IZIFLUX_TEXT_DOMAIN)?></th>
  							    		<td>
- 							    			<input type="text" id="amountToPay" class="input-text not-negative-amount"  name="amountToPay" value="<?php echo $wallet->BAL?>">
+ 							    			<input type="text" id="amountToPay" class="input-text not-negative-amount"  name="amountToPay" value="<?php echo esc_attr( $wallet->BAL ) ?>">
  							    		</td>
  							    	</tr>
  						    	</tbody>
  						    </table>
- 							<?php submit_button(__("Do a moneyout",IZIFLUX_TEXT_DOMAIN)); ?>
+ 							<?php submit_button(__("Do a moneyout", IZIFLUX_TEXT_DOMAIN)); ?>
  						   
  		          	</div>
  		          	<?php endif;?>
@@ -292,18 +285,13 @@ final class Lemonway {
  	 * @throws Exception
  	 * @return Wallet
  	 */
- 	public function getWalletDetails($walletId){
- 	
+ 	public function getWalletDetails($walletId) {
  		$kit = $this->gateway->getDirectkit();
  	
  		try {
- 	
- 			return $kit->GetWalletDetails(array('wallet'=>$walletId,'email'=>''));
- 	
+ 			return $kit->GetWalletDetails(array('wallet' => $walletId));
  		} catch (Exception $e) {
- 	
  			throw $e;
- 	
  		}
  	}
      
@@ -494,12 +482,7 @@ final class Lemonway {
      	}
      
      	add_option( 'lw_db_version', self::DB_VERSION);
-     
-     }
-     
-    
-     
-     
+     }  
 }
 
 function LW(){
