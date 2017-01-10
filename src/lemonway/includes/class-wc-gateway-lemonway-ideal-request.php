@@ -32,7 +32,7 @@ class WC_Gateway_Lemonway_Ideal_Request extends WC_Gateway_Lemonway_Request {
             }
         }*/
         
-        $comment = sprintf(__('Order #%s by %s %s %s', LEMONWAY_IDEAL_TEXT_DOMAIN), $order->get_order_number(), $order->billing_last_name, $order->billing_first_name, $order->billing_email);
+        $comment = get_bloginfo( 'name' ) . " - " . sprintf(__('Order #%s by %s %s %s', LEMONWAY_IDEAL_TEXT_DOMAIN), $order->get_order_number(), $order->billing_last_name, $order->billing_first_name, $order->billing_email);
         $returnUrl = '';
         $params = array(
                 'wallet'            => $this->gateway->getMerchantWalletId(),

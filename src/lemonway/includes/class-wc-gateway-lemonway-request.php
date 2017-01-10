@@ -46,7 +46,6 @@ class WC_Gateway_Lemonway_Request {
                 case 'use_card':
                     $useCard = 1;
                     break;
-                
             }
         }
         
@@ -65,9 +64,10 @@ class WC_Gateway_Lemonway_Request {
             }
         }*/
     
-        $comment = sprintf(__('Order #%s by %s %s %s',LEMONWAY_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name,$order->billing_first_name,$order->billing_email);
+        $comment = get_bloginfo( 'name' ) . " - " . sprintf(__('Order #%s by %s %s %s',LEMONWAY_TEXT_DOMAIN),$order->get_order_number(), $order->billing_last_name, $order->billing_first_name, $order->billing_email);
         $returnUrl = '';
-        if(!$useCard){
+
+        if (!$useCard) {
             
         
             $params = array(
@@ -76,7 +76,7 @@ class WC_Gateway_Lemonway_Request {
                 'amountTot'         => $this->formatAmount($amount),
                 'amountCom'         => $this->formatAmount($amountCom),
                 'comment'           => $comment,
-                'returnUrl'         => $this->notify_url,//esc_url_raw( $this->gateway->get_return_url( $order )),
+                'returnUrl'         => $this->notify_url, //esc_url_raw( $this->gateway->get_return_url( $order )),
                 'cancelUrl'         => esc_url_raw( $order->get_cancel_order_url_raw() ),
                 'errorUrl'          => esc_url_raw( $order->get_cancel_order_url_raw() ), //@TODO change for a specific error url
                 'autoCommission'    => 1,
@@ -93,7 +93,7 @@ class WC_Gateway_Lemonway_Request {
             if($registerCard || $useRegisteredCard){
                 update_user_meta( get_current_user_id(), '_lw_card_id', $moneyInWeb->CARD->ID );
                 update_post_meta( $order->id, '_register_card', true );
-                WC_Gateway_Lemonway::log(sprintf(__("Card Saved for customer Id %s",LEMONWAY_TEXT_DOMAIN),get_current_user_id()));
+                WC_Gateway_Lemonway::log(sprintf(__("Card Saved for customer Id %s", LEMONWAY_TEXT_DOMAIN), get_current_user_id()));
             }
             
             WC_Gateway_Lemonway::log(print_r($moneyInWeb,true));
@@ -109,7 +109,7 @@ class WC_Gateway_Lemonway_Request {
                 'wallet'            => $this->gateway->get_option(WC_Gateway_Lemonway::WALLET_MERCHANT_ID),
                 'amountTot'         => $this->formatAmount($amount),
                 'amountCom'         => $this->formatAmount($amountCom),
-                'comment'           => $comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)',LEMONWAY_TEXT_DOMAIN),$cardId),
+                'comment'           => $comment . " -- "  .sprintf(__('Oneclic mode (card id: %s)', LEMONWAY_TEXT_DOMAIN), $cardId),
                 'autoCommission'    => 1,
                 'cardId'            => $cardId
             );
