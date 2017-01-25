@@ -1,9 +1,9 @@
 <?php
 /*
  Plugin Name: Lemonway Sofort
- Plugin URI: https://www.lemonway.com
+ Plugin URI: https://www.lemonway.fr/
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
- Version: 1.1.0
+ Version: 1.1.1
  Author: Dat Pham <dpham@lemonway.com>
  Author URI: https://www.lemonway.com
  License: GPL2
