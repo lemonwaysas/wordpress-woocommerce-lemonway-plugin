@@ -18,7 +18,7 @@ class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
 		$this->icon 			  = ''; //@TODO
 		$this->has_fields         = true;
 		$this->method_title       = __( 'Lemonway IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN );
-		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.',LEMONWAY_IDEAL_TEXT_DOMAIN);
+		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', LEMONWAY_IDEAL_TEXT_DOMAIN);
 
 		// Load the settings.
 		$this->init_form_fields();

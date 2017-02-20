@@ -58,12 +58,13 @@ class WC_Gateway_Lemonway_Ideal_Notif_Handler extends WC_Gateway_Lemonway_Notif_
 		protected function validate_notif($code, $wktoken)
 	    {
 
-	    	if($code != "200")
-	    		return false;
+	    	if($code != "200") {
+                return false;
+            }
 			
 			/* @var $operation Operation */
 			$operation = $this->MoneyInIDealConfirm($wktoken);
-			 
+
 			if($operation)
 			{		
 				if($operation->STATUS == 3)
