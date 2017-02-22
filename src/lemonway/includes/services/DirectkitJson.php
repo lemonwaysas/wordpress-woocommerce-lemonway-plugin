@@ -18,7 +18,6 @@ require_once 'DirectkitException.php';
  */
 final class DirectkitJson{
 	
-
 	/**
 	 * 
 	 * @var string $directkitUrl
@@ -58,13 +57,31 @@ final class DirectkitJson{
 	public function __construct($directkitUrl, $webkitUrl, $wlLogin, $wlPass, $language, $pluginType = 'Generic-1.0.0'){
 		
 		//@TODO validate args
-		
-		
 		$this->directkitUrl = $directkitUrl . "/";
 		$this->webkitUrl = $webkitUrl;
 		$this->wlLogin = $wlLogin;
 		$this->wlPass = $wlPass;
-		$this->language =substr( $language,0,2);
+
+        $supportedLangs = array(
+            'da' => 'da',
+            'de' => 'ge',
+            'en' => 'en',
+            'es' => 'sp',
+            'fi' => 'fi',
+            'fr' => 'fr',
+            'it' => 'it',
+            'ko' => 'ko',
+            'no' => 'no',
+            'pt' => 'po',
+            'sv' => 'sw'
+        );
+		$language = substr( $language, 0, 2 );
+        if ( array_key_exists( $language, $supportedLangs ) ) {
+            $this->language = $supportedLangs[$language];
+        } else {
+            $this->language = 'en';
+        }
+
 		$this->pluginType = $pluginType;
 	}
 	
